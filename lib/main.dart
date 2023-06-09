@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-void main() {
+import 'app/di.dart';
+
+void main() async{
+  await initAppModule();
+
   runApp(const MyApp());
 }
 

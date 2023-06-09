@@ -8,7 +8,7 @@ part 'app_api.g.dart';
 
 @RestApi(baseUrl: Constant.APP_API)
 abstract class AppServiceClient{
-factory AppServiceClient(Dio dio, {required String baseUrl}) = _AppServiceClient;
+factory AppServiceClient(Dio dio, {String baseUrl}) = _AppServiceClient;
 @GET('/transactions')
 Future<List<TransactionsResponse>> getTransactions();
 
