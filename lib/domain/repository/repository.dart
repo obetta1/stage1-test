@@ -6,5 +6,5 @@ import '../../data/network/failure.dart';
 
 
 abstract class Repository{
-  Future<Either<Failure, TransactionModel>> getTransactions();
+  Future<Either<Failure, List<TransactionModel>>> getTransactions();
 }

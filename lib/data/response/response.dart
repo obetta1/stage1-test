@@ -5,7 +5,15 @@ import 'package:json_annotation/json_annotation.dart';
 part 'response.g.dart';
 
 @JsonSerializable()
-class TransactionsResponse{
+class BaseResponse {
+  @JsonKey(name: "status")
+  int? status;
+  @JsonKey(name: "message")
+  String? message;
+}
+
+@JsonSerializable()
+class TransactionsResponse extends BaseResponse{
   @JsonKey(name: "accountName")
   String? accountName;
   @JsonKey(name: "accountNumber")

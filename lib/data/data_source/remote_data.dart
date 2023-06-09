@@ -3,7 +3,7 @@ import 'package:bankly_app/data/network/app_api.dart';
 import '../response/response.dart';
 
 abstract class RemoteDataSource{
-  Future<TransactionsResponse> getTransactions();
+  Future<List<TransactionsResponse>> getTransactions();
 }
 
 class RemoteDataSourceImp implements RemoteDataSource{
@@ -11,7 +11,7 @@ class RemoteDataSourceImp implements RemoteDataSource{
 
   RemoteDataSourceImp(this._appServiceClient);
   @override
-  Future<TransactionsResponse> getTransactions() async{
+  Future<List<TransactionsResponse>> getTransactions() async{
     return await _appServiceClient.getTransactions();
   }
 

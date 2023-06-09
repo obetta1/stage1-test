@@ -15,9 +15,6 @@ enum DataSource {
   INTERNAL_SERVER_ERROR,
   CONNECT_TIMEOUT,
   CANCEL,
-  RECEIVE_TIMEOUT,
-  SEND_TIMEOUT,
-  CACHE_ERROR,
   NO_INTERNET_CONNECTION,
   DEFAULT
 }
@@ -26,7 +23,7 @@ class ErrorHandler implements Exception {
   late Failure failure;
 
   ErrorHandler.handle(dynamic error) {
-    if (error is DioError) {
+    if (error is DioException) {
       // dio error so its error from response of the API
       failure = _handleError(error);
     } else {
@@ -40,10 +37,6 @@ Failure _handleError(DioException error) {
   switch (error.type) {
     case DioExceptionType.connectionTimeout:
       return DataSource.CONNECT_TIMEOUT.getFailure();
-    case DioExceptionType.sendTimeout:
-      return DataSource.SEND_TIMEOUT.getFailure();
-    case DioExceptionType.receiveTimeout:
-      return DataSource.RECEIVE_TIMEOUT.getFailure();
     case DioExceptionType.badResponse:
       switch (error.response?.statusCode) {
         case ResponseCode.BAD_REQUEST:
@@ -86,13 +79,6 @@ extension DataSourceExtension on DataSource {
             ResponseCode.CONNECT_TIMEOUT, ResponseMessage.CONNECT_TIMEOUT.tr());
       case DataSource.CANCEL:
         return Failure(ResponseCode.CANCEL, ResponseMessage.CANCEL.tr());
-      case DataSource.RECEIVE_TIMEOUT:
-        return Failure(
-            ResponseCode.RECEIVE_TIMEOUT, ResponseMessage.RECEIVE_TIMEOUT.tr());
-      case DataSource.SEND_TIMEOUT:
-        return Failure(ResponseCode.SEND_TIMEOUT, ResponseMessage.SEND_TIMEOUT.tr());
-      case DataSource.CACHE_ERROR:
-        return Failure(ResponseCode.CACHE_ERROR, ResponseMessage.CACHE_ERROR.tr());
       case DataSource.NO_INTERNET_CONNECTION:
         return Failure(ResponseCode.NO_INTERNET_CONNECTION,
             ResponseMessage.NO_INTERNET_CONNECTION.tr());
@@ -125,9 +111,6 @@ class ResponseCode {
   static const int DEFAULT = -1;
   static const int CONNECT_TIMEOUT = -2;
   static const int CANCEL = -3;
-  static const int RECEIVE_TIMEOUT = -4;
-  static const int SEND_TIMEOUT = -5;
-  static const int CACHE_ERROR = -6;
   static const int NO_INTERNET_CONNECTION = -7;
 }
 
@@ -156,12 +139,6 @@ class ResponseMessage {
       StringValue.timeoutError; // issue in connectivity
   static const String CANCEL =
       StringValue.defaultError; // API request was cancelled
-  static const String RECEIVE_TIMEOUT =
-      StringValue.timeoutError; //  issue in connectivity
-  static const String SEND_TIMEOUT =
-      StringValue.timeoutError; //  issue in connectivity
-  static const String CACHE_ERROR = StringValue
-      .defaultError; //  issue in getting data from local data source (cache)
   static const String NO_INTERNET_CONNECTION =
       StringValue.noInternetError; // issue in connectivity
 }

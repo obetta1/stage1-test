@@ -10,6 +10,6 @@ part 'app_api.g.dart';
 abstract class AppServiceClient{
 factory AppServiceClient(Dio dio, {required String baseUrl}) = _AppServiceClient;
 @GET('/transactions')
-Future<TransactionsResponse> getTransactions();
+Future<List<TransactionsResponse>> getTransactions();
 
 }

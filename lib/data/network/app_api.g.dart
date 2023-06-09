@@ -14,7 +14,7 @@ class _AppServiceClient implements AppServiceClient {
     this.baseUrl,
   }) {
     baseUrl ??=
-        Constant.APP_API;
+        'https://646b7d727d3c1cae4ce3e29f.mockapi.io/api/vi/transactions';
   }
 
   final Dio _dio;
@@ -22,13 +22,13 @@ class _AppServiceClient implements AppServiceClient {
   String? baseUrl;
 
   @override
-  Future<TransactionsResponse> getTransactions() async {
+  Future<List<TransactionsResponse>> getTransactions() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<TransactionsResponse>(Options(
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<TransactionsResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -40,7 +40,10 @@ class _AppServiceClient implements AppServiceClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = TransactionsResponse.fromJson(_result.data!);
+    var value = _result.data!
+        .map((dynamic i) =>
+            TransactionsResponse.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 
