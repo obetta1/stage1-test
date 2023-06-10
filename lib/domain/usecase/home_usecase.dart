@@ -9,12 +9,11 @@ import '../repository/repository.dart';
 class HomeUseCase extends BaseUseCase<void ,List<TransactionModel>>{
   Repository _repository;
 
-
   HomeUseCase(this._repository);
 
   @override
   Future<Either<Failure, List<TransactionModel>>> execute(input) async{
-   return await _repository.getTransactions();
+   var res = await _repository.getTransactions();
+   return res;
   }
-
 }

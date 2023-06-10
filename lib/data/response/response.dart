@@ -13,7 +13,7 @@ class BaseResponse {
 }
 
 @JsonSerializable()
-class TransactionsResponse extends BaseResponse{
+class TransactionsResponse {
   @JsonKey(name: "accountName")
   String? accountName;
   @JsonKey(name: "accountNumber")
@@ -63,16 +63,43 @@ class TransactionsResponse extends BaseResponse{
   @JsonKey(name: "trnPaymentReference")
   String? trnPaymentReference;
 
-  TransactionsResponse(this.accountName, this.accountNumber, this.bankCode,
+  TransactionsResponse({this.accountName, this.accountNumber, this.bankCode,
       this.bankName, this.branchCode, this.checke, this.counterPartyAccountName,
       this.counterPartyAccountNumber, this.ftCounterPartySwitchCode,
       this.journalNarration, this.logourl, this.maker, this.source,
       this.trnAmount, this.trnContractReference, this.trnCounterPartyBankName,
       this.trnCounterPartyReference, this.trnCounterPartyService,
       this.trnCounterpartyBankCode, this.trnDate, this.trnDrCr, this.trnId,
-      this.trnNarration, this.trnPaymentReference);
+      this.trnNarration, this.trnPaymentReference});
 
   factory TransactionsResponse.fromJson(Map<String, dynamic> json) => _$TransactionsResponseFromJson(json);
+
+
+  // factory TransactionsResponse.fromJson(Map<String, dynamic> json) {
+  //   return TransactionsResponse(
+  //     accountName: json['accountName'],
+  //     accountNumber: json['accountNumber'],
+  //     bankCode: json['bankCode'],
+  //     bankName: json['bankName'],
+  //     branchCode: json['branchCode'],
+  //     checke: json['checke'],
+  //     counterPartyAccountName: json['counterPartyAccountName'],
+  //     counterPartyAccountNumber: json['counterPartyAccountNumber'],
+  //     logourl: json['logourl'],
+  //     maker: json['maker'],
+  //     source: json['source'],
+  //     trnAmount: json['trnAmount'],
+  //     trnContractReference: json['trnContractReference'],
+  //     trnCounterPartyBankName: json['trnCounterPartyBankName'],
+  //     trnCounterpartyBankCode: json['trnCounterpartyBankCode'],
+  //     trnDate: json['trnDate'],
+  //     trnDrCr: json['trnDrCr'],
+  //     trnId: json['trnId'],
+  //     trnNarration: json['trnNarration'],
+  //     trnPaymentReference: json['trnPaymentReference'],
+  //    //amount: double.parse(json['amount'].toString()),
+  //   );
+  // }
 
 }
 

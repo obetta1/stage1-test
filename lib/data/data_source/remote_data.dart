@@ -12,7 +12,8 @@ class RemoteDataSourceImp implements RemoteDataSource{
   RemoteDataSourceImp(this._appServiceClient);
   @override
   Future<List<TransactionsResponse>> getTransactions() async{
-    return await _appServiceClient.getTransactions();
+    var res = await _appServiceClient.getTransactions();
+    return res;
   }
 
 
