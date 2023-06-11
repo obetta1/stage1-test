@@ -2,13 +2,9 @@ import 'package:bankly_app/domain/model.dart';
 import 'package:bankly_app/presentaion/contraller.dart';
 import 'package:bankly_app/presentaion/presentation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
 import '../../app/di.dart';
-import '../resources/asset_manager.dart';
 import '../widgets/custom_appbar.dart';
-import '../widgets/custom_imputfield.dart';
 import '../widgets/home_card_widget.dart';
 import '../widgets/searcgbar.dart';
 import '../widgets/tab_widget.dart';
