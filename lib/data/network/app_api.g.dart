@@ -13,7 +13,7 @@ class _AppServiceClient implements AppServiceClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://646b7d727d3c1cae4ce3e29f.mockapi.io/api/vi';
+    baseUrl ??= BASE_API;
   }
 
   final Dio _dio;
