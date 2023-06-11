@@ -1,5 +1,7 @@
 
+import 'package:bankly_app/presentaion/contraller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../presentaion/presentation.dart';
 
@@ -17,8 +19,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RouteGenerator.getRoute,

@@ -5,7 +5,6 @@ import 'app/di.dart';
 
 void main() async{
   await initAppModule();
-
   runApp( MyApp());
 }
 

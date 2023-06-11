@@ -30,16 +30,13 @@ ThemeData getApplicationTheme(){
           )
       ),
 
-
-
-
       //appbar theme
       appBarTheme: AppBarTheme(
           centerTitle: true,
-          color: ColorManager.white,
+          color: ColorManager.secondary,
           shadowColor: ColorManager.lightGray,
           elevation: AppSizeValue.s0,
-          titleTextStyle: boldTextStyle(color: ColorManager.black, fontSize: FontSize.s20,)
+          titleTextStyle: boldTextStyle(color: ColorManager.black, fontSize: AppSizeValue.s20,)
       ),
       //appBarTheme:
 

@@ -17,6 +17,7 @@ class ColorManager{
   static Color cardRed = HexColor.fromHex("#FFE8EA");
   static Color white = HexColor.fromHex("#FFFFFF");
   static Color error = HexColor.fromHex("#E92022"); // red color
+  static Color lightRed = HexColor.fromHex("#FFE8EA"); // red color
   static Color black= HexColor.fromHex("#000000");
 }
 

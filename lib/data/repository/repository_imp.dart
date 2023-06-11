@@ -5,14 +5,18 @@ import 'package:bankly_app/data/network/failure.dart';
 import 'package:bankly_app/data/network/network_info.dart';
 import 'package:bankly_app/domain/model.dart';
 import 'package:bankly_app/domain/repository/repository.dart';
+import 'package:bankly_app/presentaion/presentation.dart';
+import 'package:bankly_app/presentaion/widgets/ui_helpers.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import '../response/response.dart';
+
+
 
 class RepositoryImp implements Repository{
   RemoteDataSource _remoteDataSource;
   NetworkInfo _networkInfo;
-
   RepositoryImp(this._remoteDataSource, this._networkInfo);
 
   @override
@@ -33,6 +37,16 @@ class RepositoryImp implements Repository{
       }
     }else {
       ///connection error, no network connection
+      Fluttertoast.showToast(
+              msg: StringValue.noInternetError,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+      showSnackbar(StringValue.noInternetError, "connect to internet");
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }

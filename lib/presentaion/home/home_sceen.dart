@@ -1,8 +1,17 @@
 import 'package:bankly_app/domain/model.dart';
+import 'package:bankly_app/presentaion/contraller.dart';
 import 'package:bankly_app/presentaion/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../../app/di.dart';
+import '../resources/asset_manager.dart';
+import '../widgets/custom_appbar.dart';
+import '../widgets/custom_imputfield.dart';
+import '../widgets/home_card_widget.dart';
+import '../widgets/searcgbar.dart';
+import '../widgets/tab_widget.dart';
 import 'home_viewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +23,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeViewModel _viewModel = instance<HomeViewModel>();
+  final TrController controller =  Get.put(TrController());
+
 
    @override
    void initState() {
@@ -27,147 +38,88 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+     final List transact = [controller.allTransaction,
+       controller.creditTransaction,
+       controller.debitTransaction,
+       controller.filteredTransaction];
+
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(StringValue.appbarTitle),
-      ),
+      backgroundColor: ColorManager.secondary,
+      appBar:CustomAppBar(routeName: Routes.homePageRoute,),
 
-      body: Column(
-        children: [
-
-          StreamBuilder<List<TransactionModel>>(
-              stream: _viewModel.outputHomeData,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: HomeCard(transaction: snapshot.data![index]),
+      body: SizedBox(
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
+            SearchbarWidget(),
+            TabCard(),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: AppSizeValue.s0_5,
+              color: ColorManager.grey2,
+            ),
+            Expanded(
+              child: StreamBuilder<List<TransactionModel>>(
+                  stream: _viewModel.outputHomeData,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && controller.allTransaction.isNotEmpty ) {
+                        controller.debitTx();
+                      return
+                        Obx(
+                            ()=> SizedBox(
+                              child: Column(
+                                children: [(controller.isNotFound.value)?Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 58.0),
+                                  child: Text('Not found', style: boldTextStyle(color: ColorManager.error, fontSize: AppSizeValue.s25),),
+                                ):
+                                  Expanded(
+                                    child: ListView.builder(
+                                          itemCount: transact[controller.index.value].length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                              child: HomeCard(transaction: transact[controller.index.value][index]),
+                                            );
+                                          }
+                                      ),
+                                  ),
+                                ],
+                              ),
+                            ),
                         );
-                      }
-                  );
-                }else{
-                  return SizedBox();
-                }
-              }
-          ),
-        ],
+
+                    }else{
+
+                      return  SizedBox(
+                        height: 400,
+                        width: 100,
+                        child:Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            CircularProgressIndicator(),
+                            Text('Loading...'),
+                          ],
+                        )
+                      );
+                    }
+                  }
+              ),
+            ),
+          ],
+        ),
       ) ,
     );
   }
 }
 
-class HomeCard extends StatelessWidget {
-  const HomeCard({Key? key, required this.transaction}) : super(key: key);
-  final TransactionModel transaction;
-
-  @override
-  Widget build(BuildContext context) {
-    return    Container(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    height: AppSizeValue.s25,
-                    width: AppSizeValue.s25,
-                    child: Image(image: AssetImage('assets/images/1.5x/credit_icon.png'), fit: BoxFit.contain,),
-                  ),
-                  SizedBox(width: AppSizeValue.s25,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-
-                    children: [
-                      Text('${transaction.trnCounterPartyService}',
-                      style: mediumTextStyle(color: ColorManager.darkPrimary, fontSize: AppSizeValue.s16), ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0, ),
-                        child: Text('${transaction.trnDate}', style: regularTextStyle(color: ColorManager.darkGrey),),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              Text('${transaction.trnAmount}', style: regularTextStyle(color: ColorManager.green, fontSize: AppSizeValue.s16),),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: AppPaddingValue.p15),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: AppSizeValue.s0_5,
-              color: ColorManager.grey2,
-            ),
-          )
-        ],
-      ),
-    ) ;  // Figma Flutter Generator SearchbarWidget - FRAME - VERTICAL
-
-  }
 
 
 
-}
 
-class TabCard extends StatelessWidget {
-  const TabCard({Key? key, required this.orderController}) : super(key: key);
-  final int orderController;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child:  Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(
-            child: Container(
-              height: 40,
-              color: orderController == 0
-                  ? Colors.lightBlue.withAlpha(40)
-                  : Colors.white,
-              child: TextButton(
-                  onPressed: () {
-                    //orderController = 0;
-                  },
-                  child: const Text('All orders')),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              height: 40,
-              color: orderController == 1
-                  ? Colors.lightBlue.withAlpha(40)
-                  : Colors.white,
-              child: TextButton(
-                  onPressed: () {
-                   // orderController.index.value = 1;
-                  },
-                  child: const Text('Pending orders')),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              height: 40,
-              color: orderController == 1
-                  ? Colors.lightBlue.withAlpha(40)
-                  : Colors.white,
-              child: TextButton(
-                  onPressed: () {
-                    // orderController.index.value = 1;
-                  },
-                  child: const Text('Pending orders')),
-            ),
-          )
-        ]
-      ),
-    );
-  }
-}
+
+
+
+
+

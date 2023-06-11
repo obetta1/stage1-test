@@ -1,5 +1,6 @@
 
 import 'package:bankly_app/app/di.dart';
+import 'package:bankly_app/domain/model.dart';
 import 'package:flutter/material.dart';
 import '../presentation.dart';
 
@@ -19,7 +20,7 @@ class RouteGenerator{
       initHomeModule();
       return MaterialPageRoute(builder: (_) => HomeScreen());
     case Routes.detailRoute:
-      return MaterialPageRoute(builder: (_) => const DetailsScreen());
+      return MaterialPageRoute(builder: (_) => DetailsScreen(transactions: routeSettings.arguments as TransactionModel,));
     default:
       return unDefinedRoute();
   }
