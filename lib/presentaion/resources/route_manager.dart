@@ -10,30 +10,48 @@ class Routes {
   static const String detailRoute = "/details";
 }
 
-
 class RouteGenerator{
   static Route<dynamic> getRoute(RouteSettings routeSettings){
-  switch(routeSettings.name) {
-    case Routes.splashRoute:
-      return MaterialPageRoute(builder: (_) => SplashScreen());
-    case Routes.homePageRoute:
-      initHomeModule();
-      return MaterialPageRoute(builder: (_) => HomeScreen());
-    case Routes.detailRoute:
-      return MaterialPageRoute(builder: (_) => DetailsScreen(transactions: routeSettings.arguments as TransactionModel,));
-    default:
-      return unDefinedRoute();
-  }
-  }
+   return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        switch(routeSettings.name) {
+          case Routes.splashRoute:
+            return  SplashScreen();
+          case Routes.homePageRoute:
+            initHomeModule();
+            return HomeScreen();
+          case Routes.detailRoute:
+            return DetailsScreen(transactions: routeSettings.arguments as TransactionModel,);
+          default:
+            return UnDefinedRoute();
+        }
+      },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.slowMiddle;
 
-  static Route unDefinedRoute() {
-  return MaterialPageRoute(builder: (_)=>Scaffold(
-  appBar: AppBar(
-  title: const Text(StringValue.noRouteFound),
-  ),
-  body: const Center(
-  child: Text(StringValue.noRouteFound),
-  ),
-  ));
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+
+class UnDefinedRoute extends StatelessWidget {
+  const UnDefinedRoute({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: const Center(
+        child: Text('UnDefinedRoute'),
+      ),
+    );
   }
 }

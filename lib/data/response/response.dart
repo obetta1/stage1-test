@@ -75,31 +75,7 @@ class TransactionsResponse {
   factory TransactionsResponse.fromJson(Map<String, dynamic> json) => _$TransactionsResponseFromJson(json);
 
 
-  // factory TransactionsResponse.fromJson(Map<String, dynamic> json) {
-  //   return TransactionsResponse(
-  //     accountName: json['accountName'],
-  //     accountNumber: json['accountNumber'],
-  //     bankCode: json['bankCode'],
-  //     bankName: json['bankName'],
-  //     branchCode: json['branchCode'],
-  //     checke: json['checke'],
-  //     counterPartyAccountName: json['counterPartyAccountName'],
-  //     counterPartyAccountNumber: json['counterPartyAccountNumber'],
-  //     logourl: json['logourl'],
-  //     maker: json['maker'],
-  //     source: json['source'],
-  //     trnAmount: json['trnAmount'],
-  //     trnContractReference: json['trnContractReference'],
-  //     trnCounterPartyBankName: json['trnCounterPartyBankName'],
-  //     trnCounterpartyBankCode: json['trnCounterpartyBankCode'],
-  //     trnDate: json['trnDate'],
-  //     trnDrCr: json['trnDrCr'],
-  //     trnId: json['trnId'],
-  //     trnNarration: json['trnNarration'],
-  //     trnPaymentReference: json['trnPaymentReference'],
-  //    //amount: double.parse(json['amount'].toString()),
-  //   );
-  // }
+
 
 }
 

@@ -9,7 +9,7 @@ import '../app/di.dart';
 class TrController extends GetxController {
 
 
-  final HomeViewModel _viewModel = instance<HomeViewModel>();
+  final HomeViewModel viewInstance = instance<HomeViewModel>();
 
   var allTransaction = <TransactionModel>[].obs;
   var debitTransaction = <TransactionModel>[].obs;
@@ -20,12 +20,10 @@ class TrController extends GetxController {
   var isLoading = false.obs;
   var isNotFound = false.obs;
 
-  var newOrder = {}.obs;
-
   @override
   void onInit() {
-    _viewModel.start();
-    allTransaction.bindStream(_viewModel.outputHomeData);
+    viewInstance.start();
+    allTransaction.bindStream(viewInstance.outputHomeData);
     filterTransactions('deposit');
     //pendingOders.bindStream(database.getPendingOrders());
     print('onInit value>>>>>>>${allTransaction}');
